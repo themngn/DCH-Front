@@ -2,7 +2,6 @@
 D&D Character Helper
 <br> A web application that helps organize, create, and manage characters for tabletop role-playing games. Comes with a fully fletched front-end built with VUE and a robust REST API.
 <br> <h2>Features</h2>
-
 <ul dir="auto">
  <li> Authentication, authorization, and account system
    </li>
@@ -19,9 +18,9 @@ D&D Character Helper
 <br> <h2>Authors</h2>
    </li>
 <h3>Front-end</h3>
-   <li><a href="https://github.com/maxduh">Maxduh</a> (v5.2.1)
+   <li><a href="https://github.com/maxduh">Maxduh</a>
    </li>
-   <h3>Back-end</h3>
-   <li><a href="https://github.com/De1eF">DeleF</a> (v5.2.1)
+   <h3><a href="https://github.com/De1eF/DCH"> Back-end</a></h3>
+   <li><a href="https://github.com/De1eF">DeleF</a>
    </li>
  </ul>
