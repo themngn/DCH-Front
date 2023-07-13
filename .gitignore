@@ -1,5 +1,23 @@
-server/dcs-api/src/main/resources/application.properties
-server/dcs-api/src/main/resources/db/liquibase.properties
-server/dcs-api/target
-server/dcs-api/src/main/resources/application.properties
-server/dcs-api/src/main/resources/db/liquibase.properties
+.DS_Store
+node_modules
+/dist
+
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

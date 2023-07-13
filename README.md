@@ -13,22 +13,15 @@ D&D Character Helper
  </ul>
 <br> <h2>Technologies</h2>
 <ul dir="auto">
-<li>JAVA (v17)
-<li>Spring-Boot (v3.1.0)
-   </li>
-<li>Spring Security (v5.2.1)
-   </li>
-<li>Liquibase (v4.22.0)
-   </li>
-<li>MySQL (v8.0.24)
-   </li>
 <li>VUE / JavaScript (v3)
    </li>
  </ul>
 <br> <h2>Authors</h2>
    </li>
-<li><a href="https://github.com/De1eF">DeleF</a> (v5.2.1)
-   </li>
+<h3>Front-end</h3>
    <li><a href="https://github.com/maxduh">Maxduh</a> (v5.2.1)
+   </li>
+   <h3>Back-end</h3>
+   <li><a href="https://github.com/De1eF">DeleF</a> (v5.2.1)
    </li>
  </ul>
