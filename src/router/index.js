@@ -8,6 +8,8 @@ import SelectCharacter from '../views/SelectCharacter.vue'
 import LoginEmail from '../views/LoginEmail.vue'
 import Session from '../views/Sessions/Sessions.vue'
 import Test from '../views/Test.vue'
+import UserBrowser from '../views/Sessions/UserBrowser.vue'
+import User from '../views/Sessions/User.vue'
 
 const routes = [
   {
@@ -35,6 +37,11 @@ const routes = [
     component: CharacterSheet
   },
   {
+    path: '/user/:id',
+    name: 'user-id',
+    component: User
+  },
+  {
     path: '/select-character',
     name: 'select-character',
     component: SelectCharacter
@@ -54,6 +61,12 @@ const routes = [
     name: 'test',
     component: Test
   },
+  {
+    path: '/user-browser',
+    name: 'user-browser',
+    component: UserBrowser
+  },
+
   // 404
   {
     path: '/:catchAll(.*)',

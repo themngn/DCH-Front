@@ -140,8 +140,6 @@ export default {
 
     mounted() {
         this.getUserName()
-
-
     }
 
 }

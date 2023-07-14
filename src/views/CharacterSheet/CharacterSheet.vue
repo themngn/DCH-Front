@@ -78,8 +78,9 @@ export default {
         getCharacter() {
             this.token = localStorage.getItem('token')
             this.url = window.location.href.split(':8080')[0]
+            console.log(this.url)
             if (this.$route.params.id != undefined) {
-                fetch(this.url + `:1290/characters/${this.$route.params.id}`, {
+                fetch(this.url + `:1290/characters/check-update/${this.$route.params.id}?timestamp=0`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -89,9 +90,9 @@ export default {
                 )
                     .then(response => response.json())
                     .then(data => {
-                        this.character = data
-                        this.timestamp = data.timestamp
-                        localStorage.setItem('timestamp', this.timestamp)
+                        console.log(data)
+                        this.character = data.object
+
                         if (Object.keys(this.character.paramMap.skills).length == 0) {
                             this.character.paramMap.skills = {
                                 "Acrobatics": false,
@@ -114,6 +115,7 @@ export default {
                                 "Survival": false
                             }
                         }
+                        this.timestamp = data.timestamp
                     }).then(() => {
                         this.$forceUpdate()
                     })
@@ -122,8 +124,8 @@ export default {
         },
         checkForUpdate() {
             this.token = localStorage.getItem('token')
-            this.timestamp = localStorage.getItem('timestamp')
             this.url = window.location.href.split(':8080')[0]
+            console.log("ckeck with:" + this.timestamp)
             if (this.$route.params.id != undefined) {
                 fetch(this.url + `:1290/characters/check-update/${this.$route.params.id}?timestamp=${this.timestamp}`, {
                     method: 'GET',
@@ -134,8 +136,9 @@ export default {
                 })
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data.timestamp - this.timestamp)
                         if (this.timestamp != data.timestamp) {
-                            localStorage.setItem('timestamp', data.timestamp)
+                            console.log('update')
                             this.getCharacter()
                         }
                     })
