@@ -88,11 +88,20 @@ export default {
                     }
                 }
                 )
-                    .then(response => response.json())
+                    .then(response => {
+                        console.log("Test2")
+                        if (response.status == 200) {
+                            return response.json();
+                        }else{
+                            return null
+                        }
+                        
+                    })
                     .then(data => {
                         console.log(data)
+                        if(data!==null){
                         this.character = data.object
-
+                        console.log("T")
                         if (Object.keys(this.character.paramMap.skills).length == 0) {
                             this.character.paramMap.skills = {
                                 "Acrobatics": false,
@@ -115,7 +124,7 @@ export default {
                                 "Survival": false
                             }
                         }
-                        this.timestamp = data.timestamp
+                        this.timestamp = data.timestamp}
                     }).then(() => {
                         this.$forceUpdate()
                     })

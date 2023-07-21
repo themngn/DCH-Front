@@ -6,7 +6,7 @@ import CharacterSheet from '../views/CharacterSheet/CharacterSheet.vue'
 import NotFound from '../views/NotFound.vue'
 import SelectCharacter from '../views/SelectCharacter.vue'
 import LoginEmail from '../views/LoginEmail.vue'
-import Session from '../views/Sessions/Sessions.vue'
+import SelectSession from '../views/Sessions/SelectSession.vue'
 import Test from '../views/Test.vue'
 import UserBrowser from '../views/Sessions/UserBrowser.vue'
 import User from '../views/Sessions/User.vue'
@@ -54,7 +54,7 @@ const routes = [
   {
     path: '/sessions',
     name: 'sessions',
-    component: Session
+    component: SelectSession
   },
   {
     path: '/test',

@@ -188,8 +188,7 @@ export default {
                 localStorage.setItem('token', data.token)
                 localStorage.setItem('email', data.username)
                 localStorage.setItem('username', "nousername")
-                this.$emit('update')
-                this.$router.push('/select-character')
+                this.getData()
 
             })
         },
@@ -220,6 +219,36 @@ export default {
             localStorage.removeItem('username')
             this.$emit('update')
             this.changeType()
+        },
+        getData(){
+            this.token=localStorage.getItem("token")
+            fetch(this.url + ':1290/users/me', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                }
+            }).then(res => {
+                if (res.status === 400) {
+                    this.error = 'invalid email or password'
+                    this.showError = true;
+                    return;
+                }
+                return res.json();
+            }).then(data => {
+                if (!data) {
+                    return;
+                }
+                this.showError = false;
+                console.log("Test1")
+                console.log(data)
+                localStorage.setItem('username', data.username)
+                localStorage.setItem('id', data.id)
+                localStorage.setItem('portraitId',data.portraitId)
+                this.$emit('update')
+                this.$router.push('/select-character')
+
+            })
         }
     }, mounted() {
         this.changeType()

@@ -7,7 +7,9 @@
       <router-link to="/sessions" v-if="token">Sessions</router-link><span v-if="token">|</span>
       <router-link to="/user-browser" v-if="token">UserBrowser</router-link><span v-if="token">|</span>
       <router-link to="/select-character" v-if="token">Select Character</router-link><span v-if="token">|</span>
-      <router-link to="/login" v-if="token">{{ username }}</router-link>
+      <router-link class="login" to="/login" v-if="token">
+      <Portrait :id="portraitId" class="portrait" />{{ username }}
+      </router-link>
       <router-link to="/login" v-else>Login</router-link>
     </nav>
   </Transition>
@@ -19,14 +21,21 @@
 </template>
 
 <script>
+import Portrait from "./views/Portrait.vue";
+
 export default {
   name: "App",
   data() {
     return {
       showNavBar: true,
       token: localStorage.getItem("token"),
-      username: localStorage.getItem("username")
+      username: localStorage.getItem("username"),
+      id: localStorage.getItem("id"),
+      portraitId: localStorage.getItem("portraitId")
     };
+  },
+  components: {
+    Portrait,
   },
   methods: {
     toggleNavBar() {
@@ -98,7 +107,7 @@ html {
 nav {
   height: 50px;
   margin: 0;
-  background-image: linear-gradient(to right, rgb(237, 34, 36), rgb(243, 91, 34), rgb(249, 150, 33), rgb(245, 193, 30), rgb(241, 235, 27) 27%, rgb(241, 235, 27), rgb(241, 235, 27) 33%, rgb(99, 199, 32), rgb(12, 155, 73), rgb(33, 135, 141), rgb(57, 84, 165), rgb(97, 55, 155), rgb(147, 40, 142));
+  background-image: linear-gradient(90deg, rgba(32, 32, 32, 1) 0%, rgba(0, 195, 94, 1) 25%, rgba(0, 195, 94, 1) 75%, rgba(32, 32, 32, 1) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -157,6 +166,18 @@ nav a.router-link-exact-active {
   margin: 0 0 -50px 0;
 }
 
+
+.portrait {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.login{
+  display: flex;
+  align-items:center;
+  
+}
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
 * {
