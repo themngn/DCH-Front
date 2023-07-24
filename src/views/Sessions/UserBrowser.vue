@@ -1,6 +1,6 @@
 <template>
     <input @input="getUsersList" v-model="search" type="text">
-    <ol>
+    <ol class="list">
         <li class="user" v-for="user in users" v-bind:key="user.id" @click="goToUserPage(user.id)">
             {{ user.username }}
             {{ user.portraitId }}
@@ -75,4 +75,12 @@ export default {
     padding: 15px;
     color: white;
 }
+.list{
+    width: 100%;
+    margin: 15px auto;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 </style>

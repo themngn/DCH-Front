@@ -64,6 +64,8 @@ export default {
                 0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000, 85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000
             ],
             timer: null,
+            timer2: null,
+            counter:0,
             timestamp: 0,
         }
     },
@@ -76,6 +78,7 @@ export default {
         Attacks
     }, methods: {
         getCharacter() {
+            if(this.counter<=0){
             this.token = localStorage.getItem('token')
             this.url = window.location.href.split(':8080')[0]
             console.log(this.url)
@@ -129,7 +132,7 @@ export default {
                         this.$forceUpdate()
                     })
 
-            }
+            }}
         },
         checkForUpdate() {
             this.token = localStorage.getItem('token')
@@ -169,10 +172,12 @@ export default {
         },
         saveSkills(skills) {
             this.character.paramMap.skills = skills
-            this.sendChanges()
+            //this.sendChanges()
+            this.counter=10
         },
         saveInventory() {
-            this.sendChanges()
+            //this.sendChanges()
+            this.counter=10
         },
         saveInfo(NewCharacter) {
             this.character.name = NewCharacter.name
@@ -183,7 +188,8 @@ export default {
             this.character.paramMap.experience = NewCharacter.xp
             this.character.paramMap.abillityScores = NewCharacter.abilities
             this.character.paramMap.abilitiesProficiency = NewCharacter.abilitiesProficiency
-            this.sendChanges()
+            //this.sendChanges()
+            this.counter=10
         }, saveHealth(health) {
             this.character.paramMap.hp = health.hp
             this.character.paramMap.maxhp = health.maxhp
@@ -197,14 +203,18 @@ export default {
             this.character.paramMap.coins = health.coins
             this.character.paramMap.armorClass = health.armorClass
             this.character.paramMap.additionalSkills = health.additionalSkills
-            this.sendChanges()
+            //this.sendChanges()
+            this.counter=10
         }, sendAdditionalInfo(out) {
             this.character.paramMap.Traits = out
-            this.sendChanges()
+            //this.sendChanges()
+            this.counter=10
         },
         saveAttacks(out) {
             this.character.paramMap.Attacks = out
-            this.sendChanges()
+            //this.sendChanges()
+            this.counter=10
+
         },
         calculateProficiencyBonus(ex) {
             for (let i = 0; i < this.levels.length; i++) {
@@ -223,6 +233,10 @@ export default {
             return this.proficiencyBonus;
         }, update() {
             this.checkForUpdate()
+        },update2() {
+            this.counter--;
+            if(this.counter==0){
+                this.sendChanges()}
         }
 
 
@@ -232,9 +246,13 @@ export default {
         this.timer = setInterval(() => {
             this.update()
         }, 500)
+        this.timer2 = setInterval(() => {
+            this.update2()
+        }, 50)
     },
     beforeDestroy() {
         clearInterval(this.timer)
+        clearInterval(this.timer2)
     }
 }
 

@@ -1,6 +1,6 @@
 <template>
     <ol class="characters">
-        <li v-for="character in characters" v-bind:key="character.id" @click="goToCharacterPage(character.id)">
+        <li v-for="character in characters" v-bind:key="character.id">
             <h2>{{ character.name }}</h2>
             <h3>Level: {{ character.level }}; Id: {{ character.id }}</h3>
             <router-link class="play-button" :to="'/character-sheet/' + character.id">Play</router-link>
@@ -21,7 +21,7 @@ export default {
             username: '',
             id: this.$route.params.id,
             characters: [],
-            currentSession: -1
+            currentSession: -1,
         }
     },
     methods: {
