@@ -1,9 +1,9 @@
 <template>
     <div class="bg">
-        <h1>Додаткова інформація</h1>
+        <h1>Additional information</h1>
         <div class="add">
-            <input class="input-item-name" v-model="newItemName" type="text" placeholder="Назва предмету">
-            <button :disabled="newItemName.length < 1" class="add-button" @click="addItem">Додати</button>
+            <input class="input-item-name" v-model="newItemName" type="text" placeholder="Item name">
+            <button :disabled="newItemName.length < 1" class="add-button" @click="addItem">Add</button>
         </div>
         <ol class="inventory">
             <li class="item" v-for="item in OutMap">

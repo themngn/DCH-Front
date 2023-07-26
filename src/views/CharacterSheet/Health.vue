@@ -1,75 +1,75 @@
 <template>
     <div class="bg">
         <div class="line">
-            <span class="line-title v-long">ХП:</span>
+            <span class="line-title v-long">HP:</span>
             <input @change="sendHealth" type="number" class="line-input num short" v-model="character.hp">
             <span class="line-title short">/</span>
             <input @change="sendHealth" type="number" class="line-input num short" v-model="character.maxhp">
         </div>
         <div class="line">
-            <span class="line-title v-long">Додаткове ХП:</span>
+            <span class="line-title v-long">Bonus HP:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.bonusHp">
         </div>
         <div class="line">
-            <span class="line-title v-long">Кубик хп:</span>
+            <span class="line-title v-long">HP dice:</span>
             <span class="line-title long"></span>
             <span class="line-title short"> d</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.hitDice">
         </div>
         <div class="line">
-            <span class="line-title v-long">Рятівні кидки від смерті:</span>
+            <span class="line-title v-long">Death saves:</span>
             <span class="line-title mdium"></span>
         </div>
         <div class="line">
-            <span class="line-title medium">Успіхи:</span>
+            <span class="line-title medium">Successes:</span>
             <input @change="sendHealth" type="checkbox" class="prof-checkbox" v-model="character.deathSavesSuccess[0]">
             <input @change="sendHealth" type="checkbox" class="prof-checkbox" v-model="character.deathSavesSuccess[1]">
             <input @change="sendHealth" type="checkbox" class="prof-checkbox" v-model="character.deathSavesSuccess[2]">
             <span class="line-title medium"></span>
         </div>
         <div class="line">
-            <span class="line-title medium">Невдачі:</span>
+            <span class="line-title medium">Failures:</span>
             <input @change="sendHealth" type="checkbox" class="prof-checkbox" v-model="character.deathSavesFail[0]">
             <input @change="sendHealth" type="checkbox" class="prof-checkbox" v-model="character.deathSavesFail[1]">
             <input @change="sendHealth" type="checkbox" class="prof-checkbox" v-model="character.deathSavesFail[2]">
             <span class="line-title medium"></span>
         </div>
         <div class="line">
-            <span class="line-title v-long">Клас броні:</span>
+            <span class="line-title v-long">Armor class:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.armorClass">
-            <span class="line-title long">Ініціатива:</span>
+            <span class="line-title long">Initiative:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.initiative">
         </div>
         <div class="line">
-            <span class="line-title medium">Швидкість:</span>
+            <span class="line-title medium">Speed:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.speed">
-            <span class="line-title medium">Натхнення:</span>
+            <span class="line-title medium">Inspiration:</span>
             <input @change="sendHealth" type="checkbox" class="prof-checkbox" v-model="character.inspiration">
             <span class="line-title v-short"></span>
         </div>
         <div class="line">
-            <span class="line-title v-long">Пасивна мудрість:</span>
+            <span class="line-title v-long">Passive Wisdom:</span>
             <span class="line-title medium">{{ passiveWisdom }}</span>
         </div>
         <div class="line">
-            <span class="line-title v-long">Гроші:</span>
-            <span class="line-title short">ММ:</span>
+            <span class="line-title v-long">Money:</span>
+            <span class="line-title short">CC:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.coins.cp">
-            <span class="line-title short">СМ:</span>
+            <span class="line-title short">SC:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.coins.sp">
         </div>
         <div class="line">
-            <span class="line-title short">ЕМ:</span>
+            <span class="line-title short">"EC":</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.coins.ep">
-            <span class="line-title short">ЗМ:</span>
+            <span class="line-title short">GC:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.coins.gp">
-            <span class="line-title short">ПМ:</span>
+            <span class="line-title short">PC:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.coins.pp">
         </div>
         <div class="add">
             <input @change="sendHealth" class="input-item-name" v-model="addNewSkill" type="text"
-                placeholder="Назва навички">
-            <button :disabled="addNewSkill.length < 1" class="add-button" @click="addSkill">Додати</button>
+                placeholder="Name of Skill">
+            <button :disabled="addNewSkill.length < 1" class="add-button" @click="addSkill">Add</button>
         </div>
         <ol class="inventory">
             <li class="item" v-for="item in character.additionalSkills">

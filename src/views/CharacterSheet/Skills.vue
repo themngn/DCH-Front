@@ -1,9 +1,9 @@
 <template>
     <div class="bg">
-        <h1>Навички</h1>
+        <h1>Skills</h1>
         <ol>
             <li v-for="skill in skills">
-                {{ skill_name[skill.name] }}
+                {{ skill.name }}
                 <span class="ability">{{ getAbylityName(skill.name).substring(0, 3) }}.</span>
                 <input class="prof-checkbox" type="checkbox" v-model="skill.prof"
                     @click="sendSkills(skill.name, skill.prof)">
@@ -129,7 +129,7 @@ export default {
             this.proficiency_bonus = this.proficiency_bonusSet;
 
         }, getAbylityName(skillname) {
-            return this.ability_name[this.skillsAbility[skillname]];
+            return this.skillsAbility[skillname];
 
         }, getAbylityValue(skillname) {
             return this.ability[this.skillsAbility[skillname]];

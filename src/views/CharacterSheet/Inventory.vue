@@ -1,10 +1,10 @@
 <template>
     <div class="bg">
-        <h1>Інвентар</h1>
-        <h2>Вага: {{ countWeight() }} lb.</h2>
+        <h1>Inventory</h1>
+        <h2>Weight: {{ countWeight() }} lb.</h2>
         <div class="add">
-            <input class="input-item-name" v-model="newItemName" type="text" placeholder="Назва предмету">
-            <button :disabled="newItemName.length < 1" class="add-button" @click="addItem">Додати</button>
+            <input class="input-item-name" v-model="newItemName" type="text" placeholder="Item name">
+            <button :disabled="newItemName.length < 1" class="add-button" @click="addItem">Add</button>
         </div>
         <ol class="inventory">
             <li class="item" v-for="item in inventory">

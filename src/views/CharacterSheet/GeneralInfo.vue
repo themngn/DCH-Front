@@ -1,54 +1,54 @@
 <template>
     <div class="bg">
-        <h1>Загальна інформація</h1>
+        <h1>General information</h1>
         <div class="line">
-            <span class="line-title">Ім'я:</span>
-            <input @input="sendInfo" type="text" class="line-input" placeholder="Ім'я персонажа" v-model="character.name">
+            <span class="line-title">Name:</span>
+            <input @input="sendInfo" type="text" class="line-input" placeholder="Character name" v-model="character.name">
         </div>
         <div class="line">
-            <span class="line-title">Раса:</span>
+            <span class="line-title">Race:</span>
             <select @change="sendInfo" v-model="character.race" class="line-input">
-                <option v-for="race in races" :value="race">{{ racesName[race] }}</option>
+                <option v-for="race in races" :value="race">{{ race }}</option>
             </select>
         </div>
         <div class="line">
-            <span class="line-title">Клас:</span>
+            <span class="line-title">Class:</span>
             <select @change="sendInfo" v-model="character.class" class="line-input">
-                <option v-for="Class in classes" :value="Class">{{ classesName[Class] }}</option>
+                <option v-for="Class in classes" :value="Class">{{ Class }}</option>
             </select>
         </div>
         <div class="line">
-            <span class="line-title long">Рівень: {{ level }}</span>
-            <span class="line-title long">Досвід:</span>
+            <span class="line-title long">Level: {{ level }}</span>
+            <span class="line-title long">Exp:</span>
             <input @input="levelCalulate" @click="levelCalulate" type="number" class="line-input num medium" placeholder="0"
                 v-model="character.xp">
         </div>
         <div class="line">
-            <span class="line-title v-long ">Бонус майстерності: {{ proficiencyBonus }}</span>
+            <span class="line-title v-long ">Proficiency bonus: {{ proficiencyBonus }}</span>
         </div>
         <div class="line">
-            <span class="line-title">Походження:</span>
+            <span class="line-title">Background:</span>
             <select @change="sendInfo" v-model="character.background" class="line-input">
-                <option v-for="background in backgrounds" :value="background">{{ backgroundsName[background] }}</option>
+                <option v-for="background in backgrounds" :value="background">{{ background }}</option>
             </select>
         </div>
         <div class="line">
-            <span class="line-title">Світогляд:</span>
+            <span class="line-title">Alignment:</span>
             <select @change="sendInfo" v-model="character.alignment" class="line-input">
-                <option v-for="alignment in alignments" :value="alignment">{{ alignmentsName[alignment] }}</option>
+                <option v-for="alignment in alignments" :value="alignment">{{ alignment }}</option>
             </select>
         </div>
-        <h2>Характеристики</h2>
+        <h2>Ability Scores</h2>
         <ol>
             <li v-for="ability in abilities" class="line">
-                <span class="line-title long">{{ abilitiesName[ability] }} : {{ Math.floor((character.abilities[ability] -
+                <span class="line-title long">{{ ability }} : {{ Math.floor((character.abilities[ability] -
                     10) / 2)
                 }}</span>
                 <input @input="sendInfo" type="number" class="line-input num short" placeholder="0"
                     v-model="character.abilities[ability]" maxlength="2">
                 <input @input="toggle(character.abilitiesProficiency[ability])" class="prof-checkbox" type="checkbox"
                     v-model="character.abilitiesProficiency[ability]">
-                <span class="line-title long">РК : {{ Math.floor((character.abilities[ability] -
+                <span class="line-title long">ST : {{ Math.floor((character.abilities[ability] -
                     10) / 2) + (character.abilitiesProficiency[ability] ? proficiencyBonus : 0)
                 }}</span>
             </li>
