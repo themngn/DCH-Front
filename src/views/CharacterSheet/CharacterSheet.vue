@@ -1,24 +1,24 @@
 <template>
     <div class="bg-top">
         <div class="panel">
-            <GeneralInfo @sendInfo="saveInfo" :characterIn="character"></GeneralInfo>
+            <GeneralInfo @sendInfo="saveInfo" :characterIn="character" :editble="editble"></GeneralInfo>
         </div>
         <div class="panel">
             <Skills @sendSkills="saveSkills" :skillsSet="character.paramMap.skills"
                 :proficiency_bonusSet="calculateProficiencyBonus(character.paramMap.experience)"
-                :abilitySet="character.paramMap.abillityScores"></Skills>
+                :abilitySet="character.paramMap.abillityScores" :editble="editble"></Skills>
         </div>
         <div class="panel">
-            <Health @sendHealth="saveHealth" :characterIn="character.paramMap"></Health>
+            <Health @sendHealth="saveHealth" :characterIn="character.paramMap" :editble="editble"></Health>
         </div>
         <div class="panel">
-            <Attacks @sendInventory="saveAttacks" :paramMap="character.paramMap"></Attacks>
+            <Attacks @sendInventory="saveAttacks" :paramMap="character.paramMap" :editble="editble"></Attacks>
         </div>
         <div class="panel">
-            <Inventory @sendInventory="saveInventory" :inventorySet="character.paramMap.inventory1"></Inventory>
+            <Inventory @sendInventory="saveInventory" :inventorySet="character.paramMap.inventory1" :editble="editble"></Inventory>
         </div>
         <div class="panel">
-            <AdditionalInfo @sendInventory="sendAdditionalInfo" :paramMap="character.paramMap"></AdditionalInfo>
+            <AdditionalInfo @sendInventory="sendAdditionalInfo" :paramMap="character.paramMap" :editble="editble"></AdditionalInfo>
         </div>
 
     </div>
@@ -67,6 +67,7 @@ export default {
             timer2: null,
             counter:0,
             timestamp: 0,
+            editble: false,
         }
     },
     components: {
@@ -125,6 +126,17 @@ export default {
                                 "Sleight of Hand": false,
                                 "Stealth": false,
                                 "Survival": false
+                            }
+                        }
+                        if (this.character.owners.length > 0) {
+                            for (let i = 0; i < this.character.owners.length; i++) {
+                                if (this.character.owners[i].id == localStorage.getItem('id')) {
+                                    this.editble = true
+                                    
+                                }else{
+                                    this.editble = false
+                                    
+                                }
                             }
                         }
                         this.timestamp = data.timestamp}
@@ -248,7 +260,8 @@ export default {
         }, 500)
         this.timer2 = setInterval(() => {
             this.update2()
-        }, 50)
+        }, 25)
+
     },
     beforeDestroy() {
         clearInterval(this.timer)

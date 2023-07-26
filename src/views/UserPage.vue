@@ -1,5 +1,19 @@
 <template>
-    <h1>{{ loginType }}</h1>
+    <div v-if="!logedIn" class="requests">
+        <h4>Ownership requests</h4>
+        <div v-if="requests.length==0">No requests</div>
+        <ol v-else class="request-list">
+            <li class="request" v-for="request in requests">
+                <div>Character Id:{{request.characterId}}</div>
+                <div>User ID:{{request.requesterId}}</div>
+                <div>Request ID:{{request.id}}</div>
+                <div class="buttons">
+                    <button class="action-button" @click="acceptRequest(request.id)">Accept</button>
+                    <button class="action-button" @click="declineRequest(request.id)">Decline</button>
+                </div>
+            </li>
+        </ol>
+    </div>
     <div v-if="logedIn" class="form">
         <label for="loginType">Login Type</label>
         <select @change="changeType" v-model="loginType">
@@ -45,7 +59,7 @@
 
 <script>
 export default {
-    name: 'Login',
+    name: 'UserPage',
     components: {
 
     },
@@ -67,13 +81,64 @@ export default {
             url: '',
 
             showError: false,
-            error: ''
+            error: '',
+            token: null,
+            requests: []
         }
     },
     methods: {
+        checkReqest(){
+            console.log("check")
+            if(!this.logedIn){
+                this.url = window.location.href.split(':8080')[0]
+                this.token = localStorage.getItem('token')
+                fetch(this.url+ ":1290/characters/owners/requests",{
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                }}).then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    this.requests = data
+                }
+                
+                )
+            }
+        },
+        acceptRequest(requestId){
+            this.url = window.location.href.split(':8080')[0]
+            this.token = localStorage.getItem('token')
+            fetch(this.url + `:1290/characters/owners/${requestId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.token
+            }}).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                this.checkReqest()
+            })
+        },
+        declineRequest(requestId){
+            this.url = window.location.href.split(':8080')[0]
+            this.token = localStorage.getItem('token')
+            fetch(this.url + `:1290/characters/owners/requests/${requestId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.token
+            }}).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                this.checkReqest()
+            })
+        },
+
         checkIflogedIn() {
             console.log(localStorage.getItem('token'))
             this.logedIn = localStorage.getItem('token') == null;
+            this.checkReqest()
         },
         submit() {
             if (this.loginType === 'login') {
@@ -252,6 +317,7 @@ export default {
         }
     }, mounted() {
         this.changeType()
+        this.checkReqest()
     }
 }
 </script>
@@ -328,6 +394,47 @@ h1 {
 
 .red {
     color: red;
+}
+
+.requests{
+    width: 500px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    margin: auto;
+    
+    font-size: 30px;
+}
+
+h4{
+    padding: auto;
+    padding-top: 15px;
+}
+.request{
+    list-style: none;
+    padding: 10px;
+    background-color:   #444;
+    width: 450px;
+
+}
+.request-list{
+    padding: 15px;
+    width: 100%;
+    display: flex;
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-around;
+
+}
+.action-button{
+    background-color: #333;
+    border: none;
+    color: white;
+    margin: 5px;
+    
 }
 </style>
 

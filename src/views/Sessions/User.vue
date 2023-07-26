@@ -4,7 +4,8 @@
             <h2>{{ character.name }}</h2>
             <h3>Level: {{ character.level }}; Id: {{ character.id }}</h3>
             <router-link class="play-button" :to="'/character-sheet/' + character.id">Play</router-link>
-            <button class="play-button" @click="addToSesion(character.id)">Add To Session</button>
+            <!-- <button class="play-button" @click="addToSesion(character.id)">Add To Session</button> -->
+            <button class="play-button" @click="requestOwnerShip(character.id)">Request ownership</button>
         </li>
     </ol>
 </template>
@@ -27,6 +28,21 @@ export default {
     methods: {
         goToCharacterPage(id) {
             this.$router.push(`/character-sheet/${id}`)
+        },
+        requestOwnerShip(characterId){
+            this.url = window.location.href.split(':8080')[0]
+            this.token = localStorage.getItem('token')
+            fetch(this.url + `:1290/characters/owners/requests`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                },
+                body: JSON.stringify({
+                    characterId: characterId,
+                    ownerId: this.id
+                })
+            })
         },
         getCharacterList() {
             this.token = localStorage.getItem('token')

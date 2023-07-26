@@ -4,13 +4,13 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/test">Test</router-link> |
-      <router-link to="/sessions" v-if="token">Sessions</router-link><span v-if="token">|</span>
+      <!-- <router-link to="/sessions" v-if="token">Sessions</router-link><span v-if="token">|</span> -->
       <router-link to="/user-browser" v-if="token">UserBrowser</router-link><span v-if="token">|</span>
-      <router-link to="/select-character" v-if="token">Select Character</router-link><span v-if="token">|</span>
-      <router-link class="login" to="/login" v-if="token">
+      <router-link to="/select-character" v-if="token">Characters</router-link><span v-if="token">|</span>
+      <router-link class="login" to="/me" v-if="token">
       <Portrait :id="portraitId" class="portrait" />{{ username }}
       </router-link>
-      <router-link to="/login" v-else>Login</router-link>
+      <router-link to="/me" v-else>Login</router-link>
     </nav>
   </Transition>
   <router-view @update="update" />

@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import Login from '../views/Login.vue'
+import UserPage from '../views/UserPage.vue'
 import CharacterSheet from '../views/CharacterSheet/CharacterSheet.vue'
 import NotFound from '../views/NotFound.vue'
 import SelectCharacter from '../views/SelectCharacter.vue'
 import LoginEmail from '../views/LoginEmail.vue'
-import SelectSession from '../views/Sessions/SelectSession.vue'
+// import SelectSession from '../views/Sessions/SelectSession.vue'
 import Test from '../views/Test.vue'
 import UserBrowser from '../views/Sessions/UserBrowser.vue'
 import User from '../views/Sessions/User.vue'
@@ -23,9 +23,9 @@ const routes = [
     component: About
   },
   {
-    path: '/login',
-    name: 'login',
-    component: Login
+    path: '/me',
+    name: 'me',
+    component: UserPage
   }
   , {
     path: '/character-sheet',
@@ -51,11 +51,11 @@ const routes = [
     name: 'login-email',
     component: LoginEmail
   },
-  {
-    path: '/sessions',
-    name: 'sessions',
-    component: SelectSession
-  },
+  // {
+  //   path: '/sessions',
+  //   name: 'sessions',
+  //   component: SelectSession
+  // },
   {
     path: '/test',
     name: 'test',
