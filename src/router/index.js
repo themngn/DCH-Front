@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import UserPage from '../views/UserPage.vue'
+import UserPage from '../views/UserProfile/UserPage.vue'
 import CharacterSheet from '../views/CharacterSheet/CharacterSheet.vue'
 import NotFound from '../views/NotFound.vue'
 import SelectCharacter from '../views/SelectCharacter.vue'

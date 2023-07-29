@@ -1,19 +1,28 @@
 <template>
-    <div v-if="!logedIn" class="requests">
+    <div v-if="!logedIn && requests.length != 0" class="requests">
         <h4>Ownership requests</h4>
-        <div v-if="requests.length==0">No requests</div>
-        <ol v-else class="request-list">
+        <ol class="request-list">
             <li class="request" v-for="request in requests">
-                <div>Character Id:{{request.characterId}}</div>
-                <div>User ID:{{request.requesterId}}</div>
-                <div>Request ID:{{request.id}}</div>
-                <div class="buttons">
+                <div class="request-line">
+                    Requested rights to:
+                </div>
+                <div class="request-line item-block">
+                    <Portrait class="request-portrait" id="1"></Portrait>{{ request.character.name }}
+                </div>
+                <div class="request-line">By:</div>
+                <div class="request-line item-block">
+                    <Portrait class="request-portrait" :id="request.requester.portraitId">
+                    </Portrait>
+                    {{ request.requester.username }}
+                </div>
+                <div class="buttons request-line">
                     <button class="action-button" @click="acceptRequest(request.id)">Accept</button>
                     <button class="action-button" @click="declineRequest(request.id)">Decline</button>
                 </div>
             </li>
         </ol>
     </div>
+    <ChangeAvatar class="ChangeAvatar" v-if="!logedIn"></ChangeAvatar>
     <div v-if="logedIn" class="form">
         <label for="loginType">Login Type</label>
         <select @change="changeType" v-model="loginType">
@@ -58,10 +67,14 @@
 </template>
 
 <script>
+import Portrait from '../Portrait.vue'
+import ChangeAvatar from './ChangeAvatar.vue'
+
 export default {
     name: 'UserPage',
     components: {
-
+        Portrait,
+        ChangeAvatar
     },
     data() {
         return {
@@ -87,52 +100,51 @@ export default {
         }
     },
     methods: {
-        checkReqest(){
-            console.log("check")
-            if(!this.logedIn){
+        checkReqest() {
+            if (!this.logedIn) {
                 this.url = window.location.href.split(':8080')[0]
                 this.token = localStorage.getItem('token')
-                fetch(this.url+ ":1290/characters/owners/requests",{
-                method: 'GET',
-                headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.token
-                }}).then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                    this.requests = data
-                }
-                
-                )
+                fetch(this.url + ":1290/characters/owners/requests", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + this.token
+                    }
+                }).then(res => res.json())
+                    .then(data => {
+                        this.requests = data
+                    })
             }
         },
-        acceptRequest(requestId){
+        acceptRequest(requestId) {
             this.url = window.location.href.split(':8080')[0]
             this.token = localStorage.getItem('token')
             fetch(this.url + `:1290/characters/owners/${requestId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.token
-            }}).then(res => res.json())
-            .then(data => {
-                console.log(data)
-                this.checkReqest()
-            })
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                }
+            }).then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    this.checkReqest()
+                })
         },
-        declineRequest(requestId){
+        declineRequest(requestId) {
             this.url = window.location.href.split(':8080')[0]
             this.token = localStorage.getItem('token')
             fetch(this.url + `:1290/characters/owners/requests/${requestId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.token
-            }}).then(res => res.json())
-            .then(data => {
-                console.log(data)
-                this.checkReqest()
-            })
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                }
+            }).then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    this.checkReqest()
+                })
         },
 
         checkIflogedIn() {
@@ -285,8 +297,8 @@ export default {
             this.$emit('update')
             this.changeType()
         },
-        getData(){
-            this.token=localStorage.getItem("token")
+        getData() {
+            this.token = localStorage.getItem("token")
             fetch(this.url + ':1290/users/me', {
                 method: 'GET',
                 headers: {
@@ -309,7 +321,7 @@ export default {
                 console.log(data)
                 localStorage.setItem('username', data.username)
                 localStorage.setItem('id', data.id)
-                localStorage.setItem('portraitId',data.portraitId)
+                localStorage.setItem('portraitId', data.portraitId)
                 this.$emit('update')
                 this.$router.push('/select-character')
 
@@ -396,45 +408,111 @@ h1 {
     color: red;
 }
 
-.requests{
+.requests {
     width: 500px;
     height: 100%;
     background-color: #333;
     color: white;
     text-align: center;
     margin: auto;
-    
+    border-radius: 15px;
     font-size: 30px;
+
+
 }
 
-h4{
+h4 {
     padding: auto;
     padding-top: 15px;
 }
-.request{
+
+.request {
     list-style: none;
     padding: 10px;
-    background-color:   #444;
+    background-color: #444;
     width: 450px;
-
+    border-radius: 15px;
+    justify-content: space-between;
+    align-content: space-between;
+    margin: 10px 0;
 }
-.request-list{
+
+.request-list {
     padding: 15px;
     width: 100%;
     display: flex;
+    border-radius: 15px;
+    flex-wrap: wrap;
 }
 
-.buttons{
+.buttons {
     display: flex;
     justify-content: space-around;
 
 }
-.action-button{
+
+.action-button {
     background-color: #333;
     border: none;
     color: white;
     margin: 5px;
-    
+
+}
+
+.request-portrait {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: auto 5px;
+}
+
+.request-line {
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.item-block {
+    background: #555;
+    border-radius: 15px;
+}
+
+@media only screen and (max-width: 525px) {
+
+    .ChangeAvatar {
+        width: 90vw;
+        height: 65vw;
+    }
+
+    .requests {
+        width: 90vw;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .request-list {
+        width: 90vw;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .request {
+        width: 75vw;
+        margin: 0;
+    }
+
+    .request-line {
+        width: 75vw;
+        margin: 0;
+
+    }
+
+    .item-block {
+        width: 75vw;
+        margin: 0;
+    }
 }
 </style>
 

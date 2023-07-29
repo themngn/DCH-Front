@@ -1,8 +1,12 @@
 <template>
+    <input type="number" v-model="id" @change="downloadImage" />
     <input type="file" @change="uploadImage" />
-    <img :src="image" alt="" />
-    <input type="number" v-model="id" />
-    <button @click="downloadImage">Download</button>
+    <br>
+    <div class="images">
+        <img class="round" :src="image" alt="" />
+        <img class="square" :src="image" alt="" />
+        <img :src="image" alt="" />
+    </div>
 </template>
 <script>
 export default {
@@ -10,7 +14,7 @@ export default {
     data() {
         return {
             username: '',
-            id: -1,
+            id: 1,
             characters: [],
             token: '',
             url: '',
@@ -38,7 +42,11 @@ export default {
                     body: JSON.stringify({
                         data: this.picture
                     })
-                })
+                }).then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        this.image = data.data
+                    })
             }
 
             reader.readAsDataURL(file);
@@ -64,8 +72,39 @@ export default {
     }, mounted() {
         this.url = window.location.href.split(':8080')[0]
         console.log(this.url)
+        this.downloadImage()
     }
 }
 
 </script>
-<style scoped></style>
+<style scoped>
+input {
+    width: 100px;
+    height: 50px;
+    height: 25px;
+}
+
+.images {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+img {
+    max-width: 25vw;
+    height: 100%;
+    border: 10px solid black;
+    height: 100%;
+}
+
+.round {
+    border-radius: 50%;
+    width: 25vw;
+    height: 25vw;
+}
+
+.square {
+    width: 25vw;
+    height: 25vw;
+}
+</style>

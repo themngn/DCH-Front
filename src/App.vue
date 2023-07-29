@@ -3,12 +3,12 @@
     <nav v-if="showNavBar">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/test">Test</router-link> |
+      <router-link v-if="username == 'monogon'" to="/test">Test</router-link><span v-if="username == 'monogon'">|</span>
       <!-- <router-link to="/sessions" v-if="token">Sessions</router-link><span v-if="token">|</span> -->
       <router-link to="/user-browser" v-if="token">UserBrowser</router-link><span v-if="token">|</span>
       <router-link to="/select-character" v-if="token">Characters</router-link><span v-if="token">|</span>
       <router-link class="login" to="/me" v-if="token">
-      <Portrait :id="portraitId" class="portrait" />{{ username }}
+        <Portrait :id="portraitId" class="portrait" />{{ username }}
       </router-link>
       <router-link to="/me" v-else>Login</router-link>
     </nav>
@@ -44,10 +44,13 @@ export default {
     update() {
       this.token = localStorage.getItem("token");
       this.username = localStorage.getItem("username")
+      if (window.location.href.split('/')[3] != 'character-sheet') {
+        document.querySelector('link[rel="icon"]').href = '/favicon.ico'
+        document.title = 'D&D Character Helper'
+      }
 
     },
     checkToken() {
-      console.log('check token')
       this.token = localStorage.getItem('token')
       this.url = window.location.href.split(':8080')[0]
 
@@ -58,11 +61,8 @@ export default {
           'Authorization': 'Bearer ' + this.token
         }
       }).then(res => {
-        console.log(res)
-        console.log(res.status)
         return res.json()
       }).then(data => {
-        console.log(data)
       }).catch((error) => {
         console.log(error)
         localStorage.removeItem('token')
@@ -71,9 +71,27 @@ export default {
         this.username = ''
       })
 
+    },
+    getPortraidID() {
+      this.url = window.location.href.split(':8080')[0]
+      this.token = localStorage.getItem('token')
+      fetch(this.url + ":1290/users/me", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.token
+        }
+      }).then(res => res.json())
+        .then(data => {
+          this.portraitId = data.portraitId
+        })
+
     }
   }, beforeMount() {
     this.checkToken()
+    if (this.token) {
+      this.getPortraidID()
+    }
   }
   , mounted() {
 
@@ -105,12 +123,13 @@ html {
 }
 
 nav {
-  height: 50px;
+  padding: 5px;
   margin: 0;
-  background-image: linear-gradient(90deg, rgba(32, 32, 32, 1) 0%, rgba(0, 195, 94, 1) 25%, rgba(0, 195, 94, 1) 75%, rgba(32, 32, 32, 1) 100%);
+  background-image: linear-gradient(90deg, rgba(32, 32, 32, 1) 0%, rgba(0, 195, 94, 1) 25%, #00c35e 75%, rgba(32, 32, 32, 1) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 nav a {
@@ -173,11 +192,13 @@ nav a.router-link-exact-active {
   border-radius: 50%;
   margin-right: 10px;
 }
-.login{
+
+.login {
   display: flex;
-  align-items:center;
-  
+  align-items: center;
+
 }
+
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
 * {
@@ -198,5 +219,39 @@ nav a.router-link-exact-active {
   background-color: #333;
   border-radius: 10px;
   border: 3px solid #444;
+}
+
+@media only screen and (max-width: 800px) {
+  nav {
+    background-color: #00c35e;
+    background-image: none;
+  }
+
+
+
+  html,
+  body,
+  router-view {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  router-view {
+    width: 100vw;
+    margin: 0;
+  }
+
+  tamplate {
+    width: 100vw;
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 625px) {
+  .hide-button {
+    display: none;
+  }
 }
 </style>

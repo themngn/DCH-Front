@@ -18,7 +18,7 @@
         </div>
         <div class="line">
             <span class="line-title v-long">Death saves:</span>
-            <span class="line-title mdium"></span>
+            <span class="line-title medium"></span>
         </div>
         <div class="line">
             <span class="line-title medium">Successes:</span>
@@ -59,7 +59,7 @@
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.coins.sp">
         </div>
         <div class="line">
-            <span class="line-title short">"EC":</span>
+            <span class="line-title short">EC:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.coins.ep">
             <span class="line-title short">GC:</span>
             <input @change="sendHealth" type="number" class="line-input short num" v-model="character.coins.gp">
@@ -262,7 +262,7 @@ export default {
         }
     },
     methods: {
-        levelCalulate() {
+        levelCalculate() {
             for (let i = 0; i < this.levels.length; i++) {
                 if (this.character.xp < this.levels[i]) {
                     this.level = i;
@@ -316,7 +316,7 @@ export default {
 
     },
     mounted() {
-        this.levelCalulate();
+        this.levelCalculate();
         this.timer = setInterval(() => {
             this.update()
         }, 100)

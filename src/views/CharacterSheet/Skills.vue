@@ -24,7 +24,7 @@ export default {
         skillsSet: Object,
         abilitySet: Object,
         proficiency_bonusSet: Number,
-        editble : Boolean
+        editble: Boolean
     },
     data() {
         return {
@@ -105,7 +105,7 @@ export default {
             proficiency_bonus: 0,
             timer: null,
             returnSkills: {},
-            editbleSave : true
+            editbleSave: true
         }
     },
     methods: {
@@ -129,7 +129,7 @@ export default {
             }
             this.ability = this.abilitySet;
             this.proficiency_bonus = this.proficiency_bonusSet;
-            if(this.editbleSave!=this.editble){
+            if (this.editbleSave != this.editble) {
                 this.editbleSave = this.editble;
                 let inputs = document.getElementsByTagName('input');
 
@@ -216,6 +216,13 @@ input {
 .ability {
     color: grey;
     font-size: 12px;
+}
+
+@media only screen and (max-width: 525px) {
+    li {
+        width: 80vw;
+        flex-wrap: nowrap;
+    }
 }
 </style>
 

@@ -20,8 +20,8 @@
         <div class="line">
             <span class="line-title long">Level: {{ level }}</span>
             <span class="line-title long">Exp:</span>
-            <input @input="levelCalulate" @click="levelCalulate" type="number" class="line-input num medium" placeholder="0"
-                v-model="character.xp">
+            <input @change="levelCalculate" @click="levelCalculate" type="number" class="line-input num medium"
+                placeholder="0" v-model="character.xp">
         </div>
         <div class="line">
             <span class="line-title v-long ">Proficiency bonus: {{ proficiencyBonus }}</span>
@@ -41,12 +41,12 @@
         <h2>Ability Scores</h2>
         <ol>
             <li v-for="ability in abilities" class="line">
-                <span class="line-title long">{{ ability }} : {{ Math.floor((character.abilities[ability] -
+                <span class="line-title long long-m">{{ ability }} : {{ Math.floor((character.abilities[ability] -
                     10) / 2)
                 }}</span>
                 <input @input="sendInfo" type="number" class="line-input num short" placeholder="0"
                     v-model="character.abilities[ability]" maxlength="2">
-                <input @input="toggle(character.abilitiesProficiency[ability])" class="prof-checkbox" type="checkbox"
+                <input @click="toggle(character.abilitiesProficiency[ability])" class="prof-checkbox" type="checkbox"
                     v-model="character.abilitiesProficiency[ability]">
                 <span class="line-title long">ST : {{ Math.floor((character.abilities[ability] -
                     10) / 2) + (character.abilitiesProficiency[ability] ? proficiencyBonus : 0)
@@ -216,7 +216,7 @@ export default {
         }
     },
     methods: {
-        levelCalulate() {
+        levelCalculate() {
             for (let i = 0; i < this.levels.length; i++) {
                 if (this.character.xp < this.levels[i]) {
                     this.level = i;
@@ -238,7 +238,8 @@ export default {
         },
         toggle(item) {
             item = !item;
-            this.update();
+            this.sendInfo();
+
         },
         update() {
             this.character.name = this.characterIn.name;
@@ -254,7 +255,7 @@ export default {
     },
     mounted() {
         this.character.name = this.characterIn.name;
-        this.levelCalulate();
+        this.levelCalculate();
         this.timer = setInterval(() => {
             this.update()
         }, 100)
@@ -377,6 +378,36 @@ select {
 h2 {
     margin-top: 40px;
     margin-bottom: 0;
+}
+
+@media only screen and (max-width: 525px) {
+    .long {
+        width: 30vw;
+    }
+
+    .v-long {
+        width: 50vw;
+    }
+
+    .line {
+        width: 90vw;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    .line-input {
+        width: 35vw;
+    }
+
+    .short {
+        width: 10vw;
+    }
+
+    .long-m {
+        width: 50vw;
+    }
+
 }
 </style>
 

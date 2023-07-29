@@ -15,10 +15,12 @@
             <Attacks @sendInventory="saveAttacks" :paramMap="character.paramMap" :editble="editble"></Attacks>
         </div>
         <div class="panel">
-            <Inventory @sendInventory="saveInventory" :inventorySet="character.paramMap.inventory1" :editble="editble"></Inventory>
+            <Inventory @sendInventory="saveInventory" :inventorySet="character.paramMap.inventory1" :editble="editble">
+            </Inventory>
         </div>
         <div class="panel">
-            <AdditionalInfo @sendInventory="sendAdditionalInfo" :paramMap="character.paramMap" :editble="editble"></AdditionalInfo>
+            <AdditionalInfo @sendInventory="sendAdditionalInfo" :paramMap="character.paramMap" :editble="editble">
+            </AdditionalInfo>
         </div>
 
     </div>
@@ -58,6 +60,11 @@ export default {
                         "Wisdom": false,
                         "Charisma": false
                     }
+                },
+                data: {
+                    level: 0,
+                    race: '',
+                    class: ''
                 }
             },
             levels: [
@@ -65,9 +72,11 @@ export default {
             ],
             timer: null,
             timer2: null,
-            counter:0,
+            counter: 0,
             timestamp: 0,
             editble: false,
+            portraitId: 1,
+            portrait: ''
         }
     },
     components: {
@@ -79,72 +88,80 @@ export default {
         Attacks
     }, methods: {
         getCharacter() {
-            if(this.counter<=0){
-            this.token = localStorage.getItem('token')
-            this.url = window.location.href.split(':8080')[0]
-            console.log(this.url)
-            if (this.$route.params.id != undefined) {
-                fetch(this.url + `:1290/characters/check-update/${this.$route.params.id}?timestamp=0`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.token
+            if (this.counter <= 0) {
+                this.token = localStorage.getItem('token')
+                this.url = window.location.href.split(':8080')[0]
+                console.log(this.url)
+                if (this.$route.params.id != undefined) {
+                    fetch(this.url + `:1290/characters/check-update/${this.$route.params.id}?timestamp=0`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + this.token
+                        }
                     }
-                }
-                )
-                    .then(response => {
-                        console.log("Test2")
-                        if (response.status == 200) {
-                            return response.json();
-                        }else{
-                            return null
-                        }
-                        
-                    })
-                    .then(data => {
-                        console.log(data)
-                        if(data!==null){
-                        this.character = data.object
-                        console.log("T")
-                        if (Object.keys(this.character.paramMap.skills).length == 0) {
-                            this.character.paramMap.skills = {
-                                "Acrobatics": false,
-                                "Animal Handling": false,
-                                "Arcana": false,
-                                "Athletics": false,
-                                "Deception": false,
-                                "History": false,
-                                "Insight": false,
-                                "Intimidation": false,
-                                "Investigation": false,
-                                "Medicine": false,
-                                "Nature": false,
-                                "Perception": false,
-                                "Performance": false,
-                                "Persuasion": false,
-                                "Religion": false,
-                                "Sleight of Hand": false,
-                                "Stealth": false,
-                                "Survival": false
+                    )
+                        .then(response => {
+                            console.log("Test2")
+                            if (response.status == 200) {
+                                return response.json();
+                            } else {
+                                return null
                             }
-                        }
-                        if (this.character.owners.length > 0) {
-                            for (let i = 0; i < this.character.owners.length; i++) {
-                                if (this.character.owners[i].id == localStorage.getItem('id')) {
-                                    this.editble = true
-                                    
-                                }else{
-                                    this.editble = false
-                                    
-                                }
-                            }
-                        }
-                        this.timestamp = data.timestamp}
-                    }).then(() => {
-                        this.$forceUpdate()
-                    })
 
-            }}
+                        })
+                        .then(data => {
+                            console.log(data)
+                            if (data !== null) {
+                                this.character = data.object
+                                console.log("T")
+                                if (Object.keys(this.character.paramMap.skills).length == 0) {
+                                    this.character.paramMap.skills = {
+                                        "Acrobatics": false,
+                                        "Animal Handling": false,
+                                        "Arcana": false,
+                                        "Athletics": false,
+                                        "Deception": false,
+                                        "History": false,
+                                        "Insight": false,
+                                        "Intimidation": false,
+                                        "Investigation": false,
+                                        "Medicine": false,
+                                        "Nature": false,
+                                        "Perception": false,
+                                        "Performance": false,
+                                        "Persuasion": false,
+                                        "Religion": false,
+                                        "Sleight of Hand": false,
+                                        "Stealth": false,
+                                        "Survival": false
+                                    }
+                                }
+                                if (localStorage.getItem("username") == "admin") {
+                                    this.editble = true
+                                }
+                                else if (this.character.owners.length > 0) {
+                                    for (let i = 0; i < this.character.owners.length; i++) {
+                                        this.editble = false
+                                        if (this.character.owners[i].id == localStorage.getItem('id')) {
+                                            this.editble = true
+                                            break;
+                                        }
+                                    }
+                                }
+
+
+                                var Title = document.getElementsByTagName('title')[0];
+                                Title.innerHTML = this.character.name + " - DnD Character Sheet";
+                                this.portraitId = this.character.portraitId
+                                this.timestamp = data.timestamp
+                            }
+                        }).then(() => {
+                            this.$forceUpdate()
+                        })
+
+                }
+            }
         },
         checkForUpdate() {
             this.token = localStorage.getItem('token')
@@ -185,11 +202,11 @@ export default {
         saveSkills(skills) {
             this.character.paramMap.skills = skills
             //this.sendChanges()
-            this.counter=10
+            this.counter = 10
         },
         saveInventory() {
             //this.sendChanges()
-            this.counter=10
+            this.counter = 10
         },
         saveInfo(NewCharacter) {
             this.character.name = NewCharacter.name
@@ -201,7 +218,7 @@ export default {
             this.character.paramMap.abillityScores = NewCharacter.abilities
             this.character.paramMap.abilitiesProficiency = NewCharacter.abilitiesProficiency
             //this.sendChanges()
-            this.counter=10
+            this.counter = 10
         }, saveHealth(health) {
             this.character.paramMap.hp = health.hp
             this.character.paramMap.maxhp = health.maxhp
@@ -216,16 +233,16 @@ export default {
             this.character.paramMap.armorClass = health.armorClass
             this.character.paramMap.additionalSkills = health.additionalSkills
             //this.sendChanges()
-            this.counter=10
+            this.counter = 10
         }, sendAdditionalInfo(out) {
             this.character.paramMap.Traits = out
             //this.sendChanges()
-            this.counter=10
+            this.counter = 10
         },
         saveAttacks(out) {
             this.character.paramMap.Attacks = out
             //this.sendChanges()
-            this.counter=10
+            this.counter = 10
 
         },
         calculateProficiencyBonus(ex) {
@@ -245,12 +262,49 @@ export default {
             return this.proficiencyBonus;
         }, update() {
             this.checkForUpdate()
-        },update2() {
+        }, update2() {
             this.counter--;
-            if(this.counter==0){
-                this.sendChanges()}
-        }
+            if (this.counter == 0) {
+                this.levelCalulate()
+                this.character.data.level = this.level
+                this.character.data.class = this.character.paramMap.class
+                this.character.data.race = this.character.paramMap.race
+                this.sendChanges()
+            }
+        },
+        downloadImage(id) {
+            this.url = window.location.href.split(':8080')[0]
+            this.token = localStorage.getItem('token')
+            fetch(this.url + ":1290/portraits/" + id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                }
+            }).then(res => res.json())
+                .then(data => {
+                    this.portrait = data.data
+                    let favicon = document.querySelector('link[rel="icon"]')
+                    favicon.href = this.portrait
 
+                })
+        },
+        levelCalulate() {
+            for (let i = 0; i < this.levels.length; i++) {
+                if (this.character.xp < this.levels[i]) {
+                    this.level = i;
+                    this.character.level = i;
+                    this.proficiencyBonus = 2 + Math.floor((i - 1) / 4);
+                    break;
+                }
+            }
+            if (this.character.xp >= 355000) {
+                this.level = 20;
+                this.character.level = 20;
+                this.proficiencyBonus = 6;
+            }
+
+        }
 
     },
     mounted() {
@@ -261,11 +315,20 @@ export default {
         this.timer2 = setInterval(() => {
             this.update2()
         }, 25)
+        this.downloadImage(1)
 
     },
     beforeDestroy() {
         clearInterval(this.timer)
         clearInterval(this.timer2)
+    },
+    watch: {
+        portraitId: function (newId) {
+            this.token = localStorage.getItem('token')
+            if (this.token) {
+                this.downloadImage(newId)
+            }
+        }
     }
 }
 
@@ -291,5 +354,11 @@ export default {
     background-color: #333;
     padding: auto;
     display: flex;
+}
+
+@media only screen and (max-width: 525px) {
+    .panel {
+        width: 90vw;
+    }
 }
 </style>
