@@ -12,7 +12,7 @@ D&D Character Helper
  </ul>
 <br> <h2>Technologies</h2>
 <ul dir="auto">
-<li>VUE / JavaScript (v3)
+<li>VUE (v3)
    </li>
  </ul>
 <br> <h2>Authors</h2>
