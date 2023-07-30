@@ -158,7 +158,7 @@ export default {
                         race: '',
                         class: ''
                     },
-                    portraitId: 3
+                    portraitId: 2
 
                 })
             }).then(res => res.json())
