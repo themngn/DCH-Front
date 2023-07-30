@@ -242,6 +242,7 @@ li a {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 50%;
 }
 
 .new-button {

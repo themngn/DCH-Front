@@ -17,7 +17,8 @@
             </div>
             <div class="character-box-bottom">
                 <router-link class="play-button" :to="'/character-sheet/' + character.id">Play</router-link>
-                <button class="play-button" @click="requestOwnerShip(character.id)">Request ownership</button>
+                <button v-if="id!=userId" class="play-button" @click="requestOwnerShip(character.id,$event)">Request ownership</button>
+                <button v-else class="play-button" disabled>Already Owner</button>
             </div>
         </li>
     </ol>
@@ -41,13 +42,14 @@ export default {
             id: this.$route.params.id,
             characters: [],
             currentSession: -1,
+            userId: localStorage.getItem('id')
         }
     },
     methods: {
         goToCharacterPage(id) {
             this.$router.push(`/character-sheet/${id}`)
         },
-        requestOwnerShip(characterId) {
+        requestOwnerShip(characterId, event) {
             this.url = window.location.href.split(':8080')[0]
             this.token = localStorage.getItem('token')
             fetch(this.url + `:1290/characters/owners/requests`, {
@@ -60,7 +62,15 @@ export default {
                     characterId: characterId,
                     ownerId: this.id
                 })
-            })
+            }).then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    if (data.message == 'Ownership requested'||data.message == "Already requested") {
+                        event.target.disabled = true
+                        event.target.innerText = 'Request sent'
+                    }
+                })
+
         },
         getCharacterList() {
             this.token = localStorage.getItem('token')
@@ -116,6 +126,7 @@ li a {
     text-decoration: none;
     margin: 5px;
     font-size: x-large;
+    width: 50%;
 
 }
 

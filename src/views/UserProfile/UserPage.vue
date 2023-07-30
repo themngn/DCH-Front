@@ -149,7 +149,7 @@ export default {
 
         checkIfLoggedIn() {
             console.log(localStorage.getItem('token'))
-            this.logedIn = localStorage.getItem('token') == null;
+            this.loggedIn = localStorage.getItem('token') == null;
             this.checkRequest()
         },
         submit() {
