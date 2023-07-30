@@ -138,13 +138,13 @@ export default {
                                     }
                                 }
                                 if (localStorage.getItem("username") == "admin") {
-                                    this.editble = true
+                                    this.editable = true
                                 }
                                 else if (this.character.owners.length > 0) {
                                     for (let i = 0; i < this.character.owners.length; i++) {
-                                        this.editble = false
+                                        this.editable = false
                                         if (this.character.owners[i].id == localStorage.getItem('id')) {
-                                            this.editble = true
+                                            this.editable = true
                                             break;
                                         }
                                     }
