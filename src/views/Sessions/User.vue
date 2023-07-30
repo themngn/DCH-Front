@@ -75,32 +75,6 @@ export default {
                     console.log(data)
                     this.characters = data
                 })
-        },
-        addToSesion(characterId) {
-            this.currentSession = localStorage.getItem('currentSession')
-            this.url = window.location.href.split(':8080')[0]
-            this.token = localStorage.getItem('token')
-            if (this.currentSession === null) {
-                this.currentSession = -1
-            }
-            if (this.currentSession === -1) {
-
-                this.$router.push(`/sessions`)
-            } else {
-                fetch(this.url + `:1290/sessions/add-character/${this.currentSession}?characterId=${characterId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.token,
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                }).then(res => res.json())
-                    .then(data => {
-                        console.log(data)
-                        this.$router.push(`/sessions`)
-                    })
-
-            }
         }
     }, mounted() {
         this.getCharacterList()

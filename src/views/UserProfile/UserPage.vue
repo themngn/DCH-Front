@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!logedIn && requests.length != 0" class="requests">
+    <div v-if="!loggedIn && requests.length != 0" class="requests">
         <h4>Ownership requests</h4>
         <ol class="request-list">
             <li class="request" v-for="request in requests">
@@ -22,8 +22,8 @@
             </li>
         </ol>
     </div>
-    <ChangeAvatar class="ChangeAvatar" v-if="!logedIn"></ChangeAvatar>
-    <div v-if="logedIn" class="form">
+    <ChangeAvatar class="ChangeAvatar" v-if="!loggedIn"></ChangeAvatar>
+    <div v-if="loggedIn" class="form">
         <label for="loginType">Login Type</label>
         <select @change="changeType" v-model="loginType">
             <option v-for="lType in loginTypes">{{ lType }}</option>
@@ -78,7 +78,7 @@ export default {
     },
     data() {
         return {
-            logedIn: false,
+            loggedIn: false,
             showEmail: false,
             showUsername: false,
             showPassword: false,
@@ -100,8 +100,8 @@ export default {
         }
     },
     methods: {
-        checkReqest() {
-            if (!this.logedIn) {
+        checkRequest() {
+            if (!this.loggedIn) {
                 this.url = window.location.href.split(':8080')[0]
                 this.token = localStorage.getItem('token')
                 fetch(this.url + ":1290/characters/owners/requests", {
@@ -128,7 +128,7 @@ export default {
             }).then(res => res.json())
                 .then(data => {
                     console.log(data)
-                    this.checkReqest()
+                    this.checkRequest()
                 })
         },
         declineRequest(requestId) {
@@ -143,14 +143,14 @@ export default {
             }).then(res => res.json())
                 .then(data => {
                     console.log(data)
-                    this.checkReqest()
+                    this.checkRequest()
                 })
         },
 
-        checkIflogedIn() {
+        checkIfLoggedIn() {
             console.log(localStorage.getItem('token'))
             this.logedIn = localStorage.getItem('token') == null;
-            this.checkReqest()
+            this.checkRequest()
         },
         submit() {
             if (this.loginType === 'login') {
@@ -161,7 +161,7 @@ export default {
                 this.FEmail();
             }
         }, changeType() {
-            this.checkIflogedIn();
+            this.checkIfLoggedIn();
             if (this.loginType === 'login') {
                 this.showEmail = true;
                 this.showPassword = true;
@@ -329,7 +329,7 @@ export default {
         }
     }, mounted() {
         this.changeType()
-        this.checkReqest()
+        this.checkRequest()
     }
 }
 </script>

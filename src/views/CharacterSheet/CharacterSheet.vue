@@ -1,25 +1,25 @@
 <template>
     <div class="bg-top">
         <div class="panel">
-            <GeneralInfo @sendInfo="saveInfo" :characterIn="character" :editble="editble"></GeneralInfo>
+            <GeneralInfo @sendInfo="saveInfo" :characterIn="character"></GeneralInfo>
         </div>
         <div class="panel">
             <Skills @sendSkills="saveSkills" :skillsSet="character.paramMap.skills"
                 :proficiency_bonusSet="calculateProficiencyBonus(character.paramMap.experience)"
-                :abilitySet="character.paramMap.abillityScores" :editble="editble"></Skills>
+                :abilitySet="character.paramMap.abillityScores" :editable="editable"></Skills>
         </div>
         <div class="panel">
-            <Health @sendHealth="saveHealth" :characterIn="character.paramMap" :editble="editble"></Health>
+            <Health @sendHealth="saveHealth" :characterIn="character.paramMap" ></Health>
         </div>
         <div class="panel">
-            <Attacks @sendInventory="saveAttacks" :paramMap="character.paramMap" :editble="editble"></Attacks>
+            <Attacks @sendInventory="saveAttacks" :paramMap="character.paramMap"></Attacks>
         </div>
         <div class="panel">
-            <Inventory @sendInventory="saveInventory" :inventorySet="character.paramMap.inventory1" :editble="editble">
+            <Inventory @sendInventory="saveInventory" :inventorySet="character.paramMap.inventory1">
             </Inventory>
         </div>
         <div class="panel">
-            <AdditionalInfo @sendInventory="sendAdditionalInfo" :paramMap="character.paramMap" :editble="editble">
+            <AdditionalInfo @sendInventory="sendAdditionalInfo" :paramMap="character.paramMap">
             </AdditionalInfo>
         </div>
 
@@ -74,7 +74,7 @@ export default {
             timer2: null,
             counter: 0,
             timestamp: 0,
-            editble: false,
+            editable: false,
             portraitId: 1,
             portrait: ''
         }

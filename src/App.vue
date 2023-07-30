@@ -4,7 +4,6 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link v-if="username == 'monogon'" to="/test">Test</router-link><span v-if="username == 'monogon'">|</span>
-      <!-- <router-link to="/sessions" v-if="token">Sessions</router-link><span v-if="token">|</span> -->
       <router-link to="/user-browser" v-if="token">UserBrowser</router-link><span v-if="token">|</span>
       <router-link to="/select-character" v-if="token">Characters</router-link><span v-if="token">|</span>
       <router-link class="login" to="/me" v-if="token">
@@ -21,6 +20,7 @@
 </template>
 
 <script>
+
 import Portrait from "./views/Portrait.vue";
 
 export default {
@@ -72,7 +72,7 @@ export default {
       })
 
     },
-    getPortraidID() {
+    getPortraitID() {
       this.url = window.location.href.split(':8080')[0]
       this.token = localStorage.getItem('token')
       fetch(this.url + ":1290/users/me", {
@@ -90,7 +90,7 @@ export default {
   }, beforeMount() {
     this.checkToken()
     if (this.token) {
-      this.getPortraidID()
+      this.getPortraitID()
     }
   }
   , mounted() {

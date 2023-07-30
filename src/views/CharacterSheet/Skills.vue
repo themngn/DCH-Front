@@ -24,7 +24,7 @@ export default {
         skillsSet: Object,
         abilitySet: Object,
         proficiency_bonusSet: Number,
-        editble: Boolean
+        editable: Boolean
     },
     data() {
         return {
@@ -105,7 +105,7 @@ export default {
             proficiency_bonus: 0,
             timer: null,
             returnSkills: {},
-            editbleSave: true
+            editableSave: true
         }
     },
     methods: {
@@ -129,16 +129,16 @@ export default {
             }
             this.ability = this.abilitySet;
             this.proficiency_bonus = this.proficiency_bonusSet;
-            if (this.editbleSave != this.editble) {
-                this.editbleSave = this.editble;
+            if (this.editableSave != this.editable) {
+                this.editableSave = this.editable;
                 let inputs = document.getElementsByTagName('input');
 
                 for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].disabled = !this.editble;
+                    inputs[i].disabled = !this.editable;
                 }
                 let selects = document.getElementsByTagName('select');
                 for (let i = 0; i < selects.length; i++) {
-                    selects[i].disabled = !this.editble;
+                    selects[i].disabled = !this.editable;
                 }
             }
 
@@ -177,7 +177,6 @@ li {
     margin: 10px 0;
 }
 
-/* remove style from imnput */
 input {
     -webkit-appearance: none;
     -moz-appearance: none;
