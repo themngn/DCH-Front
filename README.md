@@ -5,9 +5,11 @@ D&D Character Helper
 <ul dir="auto">
  <li> Authentication, authorization, and account system
    </li>
- <li> Character creation (the user may only edit their character)
+ <li> Character creation
    </li>
  <li> Real-time character synchronization with other users
+   </li>
+ <li> User browser
    </li>
  </ul>
 <br> <h2>Technologies</h2>
