@@ -1,10 +1,10 @@
 <template>
     <div class="bg">
         <h1>Skills</h1>
-        <ol>
+        <ol>        
             <li v-for="skill in skills">
                 {{ skill.name }}
-                <span class="ability">{{ getAbylityName(skill.name).substring(0, 3) }}.</span>
+                <span class="ability">{{ getAbilityName(skill.name).substring(0, 3) }}.</span>
                 <input class="prof-checkbox" type="checkbox" v-model="skill.prof"
                     @click="sendSkills(skill.name, skill.prof)">
                 <span class="modifier">
@@ -143,7 +143,7 @@ export default {
             }
 
 
-        }, getAbylityName(skillname) {
+        }, getAbilityName(skillname) {
             return this.skillsAbility[skillname];
 
         }, getAbylityValue(skillname) {
